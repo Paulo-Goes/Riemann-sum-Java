@@ -1,10 +1,11 @@
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
+src/Testes.java
 !**/src/test/**/out/
 *.txt
 *.pdf
-Testes.java
+
 
 ### Eclipse ###
 .apt_generated
