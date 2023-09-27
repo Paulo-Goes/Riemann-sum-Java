@@ -4,7 +4,7 @@ out/
 !**/src/test/**/out/
 *.txt
 *.pdf
-
+Testes.java
 
 ### Eclipse ###
 .apt_generated
