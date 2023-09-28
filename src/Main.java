@@ -14,7 +14,7 @@ import java.util.function.Function;
 public class Main {
     //Função já definida no código
     static double function(double x) {
-        return Math.pow(x, 2) + 10;//x^2
+        return Math.pow(x, 2);//x^2
     }
 
     public static void main(String[] args) throws IOException, InterruptedException, AWTException {
