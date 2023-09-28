@@ -10,6 +10,11 @@ import java.text.DecimalFormat;
 import java.util.function.Function;
 
 public class Main {
+
+    static double function(double x) {//x*x
+        return Math.pow(x, 2);
+    }
+
     public static void main(String[] args) throws IOException, InterruptedException, AWTException {
         Function<Double, Double> funcao = Main::function;
 
@@ -27,7 +32,7 @@ public class Main {
 
         Thread.sleep(1000);
 
-        Robot robot = new Robot();
+        Robot robot = new Robot(); //Maximiza o .txt
         robot.keyPress(KeyEvent.VK_WINDOWS);
         robot.keyPress(KeyEvent.VK_UP);
         robot.keyRelease(KeyEvent.VK_UP);
@@ -71,6 +76,17 @@ public class Main {
                 aux1 = 41;
             }
             writer.write(String.format("|%s|%n", centerText(s + format.format(x1), aux1)));
+
+            /*
+             * Adicionar write x2 formatado aqui
+             * -Paulo
+             */
+
+            /*
+             * Lógica para formatar Área parcial aqui
+             * -Paulo
+             */
+
             writer.write(String.format("|%s|%n", centerText("Área parcial: " + format.format(area), 42)));
 
             s = format.format(soma);
@@ -104,10 +120,6 @@ public class Main {
         writer.flush();
         writer.write("\nResultado final: " + soma);
         writer.close();
-    }
-
-    static double function(double x) {
-        return Math.pow(x, 2);
     }
 
     public static String centerText(String text, int width) {
