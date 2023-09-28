@@ -13,7 +13,7 @@ public class Riemann {
     private final GerenciadorDeArquivos gerenciador = new GerenciadorDeArquivos();
     private final BufferedWriter writer;
 
-    public Riemann() throws IOException {
+    public Riemann() throws IOException, InterruptedException {
         gerenciador.createFolder();//Criar a pasta
         writer = new BufferedWriter(new FileWriter(gerenciador.getTxt()));//Inicia o escritor
     }
@@ -37,6 +37,7 @@ public class Riemann {
          * formato: Restringe o número de casas decimais
          * */
         String[] valores = new String[n];
+        //Tamanho máximo de casas decimais é 16
         DecimalFormat formato = new DecimalFormat("#.################");
 
         double deltaX = (b - a) / n;
@@ -78,7 +79,7 @@ public class Riemann {
             }
             System.out.println(i);
         }
-        System.out.println("Resultado final: " + soma);
+        System.out.println("Resultado final: " + formato.format(soma));
         writer.flush();
         writer.write("\n\nResultado final: " + soma);
         writer.close();

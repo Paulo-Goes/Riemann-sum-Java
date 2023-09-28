@@ -9,7 +9,7 @@ public class GerenciadorDeArquivos {
     private final File folder = new File(desktop, "Calculo 2 Riemann - resultados");//Pasta de arquivos
     private final File txt = getTxtFile();
 
-    public void createFolder() { //Cria a pasta de respostas caso não exista
+    public void createFolder() throws InterruptedException { //Cria a pasta de respostas caso não exista
         if (!folder.exists()) {
             boolean created = folder.mkdirs();
             if (created) {
@@ -20,6 +20,7 @@ public class GerenciadorDeArquivos {
         } else {
             System.out.println("A pasta já existe.");
         }
+        Thread.sleep(1000);
     }
 
     private File getTxtFile() { //Cria um novo documento de texto
