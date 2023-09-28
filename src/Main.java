@@ -147,12 +147,14 @@ public class Main {
         ProcessBuilder pb = new ProcessBuilder("notepad.exe", desktop);
         pb.start();
 
-        Thread.sleep(2000);//Espera 2 segundos para que o arquivo abra
+        Thread.sleep(1000);//Espera 2 segundos para que o arquivo abra
 
         Robot robot = new Robot(); //Maximiza o arquivo de texto
         robot.keyPress(KeyEvent.VK_WINDOWS);
         robot.keyPress(KeyEvent.VK_UP);
         robot.keyRelease(KeyEvent.VK_UP);
         robot.keyRelease(KeyEvent.VK_WINDOWS);
+
+        System.out.println("Maximizado");
     }
 }
