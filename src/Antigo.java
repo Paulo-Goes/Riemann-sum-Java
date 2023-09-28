@@ -3,12 +3,11 @@ import java.util.function.Function;
 
 public class Antigo {
     public static void main(String[] args) {
-        String in = JOptionPane.showInputDialog("Digite a função (por exemplo, x^2): ");
         double a = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
         double b = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite superior da integral: "));
         int inter = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos para a aproximação: "));
 
-        Function<Double, Double> funcao = x -> seila(in, x);
+        Function<Double, Double> funcao = Antigo::seila;
 
         double larg = (b - a) / inter;
 
@@ -29,7 +28,7 @@ public class Antigo {
         JOptionPane.showMessageDialog(null, resultText.toString());
     }
 
-    public static double seila(String expression, double x) {
+    public static double seila(double x) {
         return (Math.pow(x, 2));
     }
 }

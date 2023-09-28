@@ -16,21 +16,21 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException, AWTException {
-        Function<Double, Double> funcao = Main::function;
+        Function<Double, Double> function = Main::function; //Função pré-feita
 
-        File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory() + "\\resultado.txt");
+        File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory() + "\\resultado.txt"); //Pega a
 
         double limInf = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
         double limSup = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite superior da integral: "));
         int intervalos = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos para a aproximação: "));
 
-        riemann(funcao, limInf, limSup, intervalos, desktop);
+        riemann(function, limInf, limSup, intervalos, desktop);
         System.out.println("Abrindo arquivo...");
 
         ProcessBuilder pb = new ProcessBuilder("notepad.exe", desktop.toString());
         pb.start();
 
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         Robot robot = new Robot(); //Maximiza o .txt
         robot.keyPress(KeyEvent.VK_WINDOWS);
@@ -50,7 +50,7 @@ public class Main {
         double deltaX = (b - a) / n;
         double soma = 0;
 
-        DecimalFormat format = new DecimalFormat("#.##########");
+        DecimalFormat format = new DecimalFormat("#.##################");
 
         for (int i = 0; i < n; i++) {
             double x1 = a + i * deltaX;
@@ -59,21 +59,23 @@ public class Main {
             valores[i] = format.format(area);
             soma += area;
 
-            writer.write("===========================================\n");
+
+            writer.write("=================================================\n");
 
             int aux = String.valueOf(i + 1).length();
             String s = "Intervalo:";
             if (aux % 2 == 0) {
                 s += " ";
             }
-            writer.write(String.format("|%s|%n", centerText(s + (i + 1), 42)));
+            writer.write(String.format("|%s|%n", centerText(s + (i + 1), 48)));
+
 
             aux = format.format(x1).length() - 2;
             s = "X1:";
-            int aux1 = 42;
+            int aux1 = 48;
             if (aux % 2 != 0) {
                 s += " ";
-                aux1 = 41;
+                aux1 --;
             }
             writer.write(String.format("|%s|%n", centerText(s + format.format(x1), aux1)));
 
@@ -81,27 +83,38 @@ public class Main {
              * Adicionar write x2 formatado aqui
              * -Paulo
              */
+            aux = format.format(x2).length() - 2;
+            s = "X2:";
+            aux1 = 48;
+            if (aux % 2 != 0) {
+                s += " ";
+                aux1 --;
+            }
+            writer.write(String.format("|%s|%n", centerText(s + format.format(x2), aux1)));
 
-            /*
-             * Lógica para formatar Área parcial aqui
-             * -Paulo
-             */
-
-            writer.write(String.format("|%s|%n", centerText("Área parcial: " + format.format(area), 42)));
+            s = format.format(area);
+            aux = s.length() - 2;
+            s = "Área parcial:";
+            aux1 = 48;
+            if (aux % 2 != 0) {
+                aux1--;
+                s += " ";
+            }
+            writer.write(String.format("|%s|%n", centerText(s + format.format(area), aux1)));
 
             s = format.format(soma);
             aux = s.length() - 2;
             s = "Resultado parcial:";
-            aux1 = 42;
+            aux1 = 48;
             if (aux % 2 == 0) {
-                aux1 = 41;
+                aux1 --;
                 s += " ";
             }
             writer.write(String.format("|%s|%n", centerText(s + format.format(soma), aux1)));
+            writer.write("=================================================\n");
 
-            writer.write("===========================================\n");
             System.out.println(c);
-            if (c % (n / 16) == 0) {
+            if (c > 250) {
                 writer.flush();
                 c = 0;
             }
