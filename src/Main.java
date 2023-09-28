@@ -11,6 +11,8 @@ import java.util.function.Function;
 
 public class Main {
 
+    static BufferedWriter writer;
+
     //Função a ser usada
     static double function(double x) {//x*x
         return Math.pow(x, 2);
@@ -38,24 +40,14 @@ public class Main {
 
         System.out.println("Abrindo arquivo...");
 
-        //Comando para abrir o arquivo de texto
-        ProcessBuilder pb = new ProcessBuilder("notepad.exe", desktop.toString());
-        pb.start();
-
-        Thread.sleep(2000);//Espera 2 segundos para que o arquivo abra
-
-        Robot robot = new Robot(); //Maximiza o arquivo de texto
-        robot.keyPress(KeyEvent.VK_WINDOWS);
-        robot.keyPress(KeyEvent.VK_UP);
-        robot.keyRelease(KeyEvent.VK_UP);
-        robot.keyRelease(KeyEvent.VK_WINDOWS);
+        showText(desktop.toString());
     }
 
     static void riemann(Function<Double, Double> f, double a, double b, int n, File desktop, String function) throws IOException {//Soma de Riemann pelo ponto médio
         String[] valores = new String[n]; //Segura a área de cada intervalo
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(desktop)); //Cria arquivo de texto
-        writer.write("Soma de Riemann\nf(x) = "+function+" | a = " + a + " | b = " + b + " | Intervalos = " + n + "\n");
+        writer = new BufferedWriter(new FileWriter(desktop)); //Cria arquivo de texto
+        writer.write("Soma de Riemann\nf(x) = " + function + " | a = " + a + " | b = " + b + " | Intervalos = " + n + "\n");
 
         int c = 1;//Contador para reiniciar o buffer do arquivo de texto
 
@@ -70,56 +62,14 @@ public class Main {
             valores[i] = format.format(area); //Salva o valor para depois
             soma += area; //Soma com o resto dos valores
 
-
-            writer.write("=================================================\n");
-
-            int aux = String.valueOf(i + 1).length();//Lógica para formatar o documento de texto
-            String s = "Intervalo:";
-            if (aux % 2 == 0) {
-                s += " ";
-            }
-            writer.write(String.format("|%s|%n", centerText(s + (i + 1), 48)));
-
-
-            aux = format.format(x1).length() - 2;//Lógica para formatar o documento de texto
-            s = "X1:";
-            int aux1 = 48;
-            if (aux % 2 != 0) {
-                s += " ";
-                aux1 --;
-            }
-            writer.write(String.format("|%s|%n", centerText(s + format.format(x1), aux1)));
-
-
-            s = format.format(area);//Lógica para formatar o documento de texto
-            aux = s.length() - 2;
-            s = "Área parcial:";
-            aux1 = 48;
-            if (aux % 2 != 0) {
-                aux1--;
-                s += " ";
-            }
-            writer.write(String.format("|%s|%n", centerText(s + format.format(area), aux1)));
-
-
-            s = format.format(soma);//Lógica para formatar o documento de texto
-            aux = s.length() - 2;
-            s = "Resultado parcial:";
-            aux1 = 48;
-            if (aux % 2 == 0) {
-                aux1 --;
-                s += " ";
-            }
-            writer.write(String.format("|%s|%n", centerText(s + format.format(soma), aux1)));
-            writer.write("=================================================\n");
-
-
             System.out.println(c);//Mostra o valor do contador no terminal para reiniciar buffer
             if (c > 250) {//Se o contador atingiu a condição, reiniciar buffer e colocar contador como 0
                 writer.flush();
                 c = 0;
             }
             c++;//c = c + 1
+
+            writeText(format, i, x1, area, soma);
         }
         for (int i = 0; i < n; i++) {//Lógica para mostrar a conta de todas as áreas de forma organizada
             if (i % 5 == 0 && i != 0) {
@@ -141,5 +91,63 @@ public class Main {
         return " ".repeat(Math.max(0, padding)) +
                 text +
                 " ".repeat(Math.max(0, padding));
+    }
+
+    static void writeText(DecimalFormat format, int i, double x1, double area, double soma) throws IOException {
+        writer.write("=================================================\n");
+
+        int aux = String.valueOf(i + 1).length();//Lógica para formatar o documento de texto
+        String s = "Intervalo:";
+        if (aux % 2 == 0) {
+            s += " ";
+        }
+        writer.write(String.format("|%s|%n", centerText(s + (i + 1), 48)));
+
+
+        aux = format.format(x1).length() - 2;//Lógica para formatar o documento de texto
+        s = "X1:";
+        int aux1 = 48;
+        if (aux % 2 != 0) {
+            s += " ";
+            aux1--;
+        }
+        writer.write(String.format("|%s|%n", centerText(s + format.format(x1), aux1)));
+
+
+        s = format.format(area);//Lógica para formatar o documento de texto
+        aux = s.length() - 2;
+        s = "Área parcial:";
+        aux1 = 48;
+        if (aux % 2 != 0) {
+            aux1--;
+            s += " ";
+        }
+        writer.write(String.format("|%s|%n", centerText(s + format.format(area), aux1)));
+
+
+        s = format.format(soma);//Lógica para formatar o documento de texto
+        aux = s.length() - 2;
+        s = "Resultado parcial:";
+        aux1 = 48;
+        if (aux % 2 == 0) {
+            aux1--;
+            s += " ";
+        }
+        writer.write(String.format("|%s|%n", centerText(s + format.format(soma), aux1)));
+        writer.write("=================================================\n");
+    }
+
+    static void showText(String desktop) throws IOException, InterruptedException, AWTException {
+        //Comando para abrir o arquivo de texto
+        ProcessBuilder pb = new ProcessBuilder("notepad.exe", desktop);
+        pb.start();
+
+        Thread.sleep(2000);//Espera 2 segundos para que o arquivo abra
+
+        Robot robot = new Robot(); //Maximiza o arquivo de texto
+        robot.keyPress(KeyEvent.VK_WINDOWS);
+        robot.keyPress(KeyEvent.VK_UP);
+        robot.keyRelease(KeyEvent.VK_UP);
+        robot.keyRelease(KeyEvent.VK_WINDOWS);
     }
 }
