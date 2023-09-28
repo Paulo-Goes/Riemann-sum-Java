@@ -10,6 +10,11 @@ import java.text.DecimalFormat;
 import java.util.function.Function;
 
 public class Main {
+    /*
+    To do: criar pasta para armazenar todos os .txt
+    Refazer sistema de criar .txt para que permita a criação de outros .txt
+    Melhorar funcionalidade do leitor de texto
+     */
 
     static BufferedWriter writer;
 
@@ -54,7 +59,7 @@ public class Main {
         double deltaX = (b - a) / n; //Calcula o DeltaX
         double soma = 0; //Variável de soma para adquirir o resultado final
 
-        DecimalFormat format = new DecimalFormat("#.##################"); //Limita o tamanho dos números decimais
+        DecimalFormat format = new DecimalFormat("#.################"); //Limita o tamanho dos números decimais
 
         for (int i = 0; i < n; i++) {//Para cada intervalo n
             double x1 = a + i * deltaX;
@@ -97,16 +102,16 @@ public class Main {
         writer.write("=================================================\n");
 
         int aux = String.valueOf(i + 1).length();//Lógica para formatar o documento de texto
+        int aux1 = 48;
         String s = "Intervalo:";
         if (aux % 2 == 0) {
             s += " ";
         }
-        writer.write(String.format("|%s|%n", centerText(s + (i + 1), 48)));
+        writer.write(String.format("|%s|%n", centerText(s + (i + 1), aux1)));
 
 
         aux = format.format(x1).length() - 2;//Lógica para formatar o documento de texto
         s = "X1:";
-        int aux1 = 48;
         if (aux % 2 != 0) {
             s += " ";
             aux1--;
