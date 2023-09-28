@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 public class Main {
     //Função já definida no código
-    static double function(double x) {
+    public static double function(double x) {
         return Math.pow(x, 2);//x^2
     }
 

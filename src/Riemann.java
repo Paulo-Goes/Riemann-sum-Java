@@ -48,7 +48,7 @@ public class Riemann {
             double area = f.apply(x1) * deltaX;
             soma += area;
 
-            valores[i] = Double.toString(area); //Armazena o valor da área parcial
+            valores[i] = formato.format(area); //Armazena o valor da área parcial
 
             if (i % 250 == 0) { //Reiniciar escritor toda a vez que c for maior que 250
                 writer.flush();
