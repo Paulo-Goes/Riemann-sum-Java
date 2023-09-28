@@ -3,6 +3,14 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.function.Function;
 
+/*
+* Documento de texto so funciona se notepad.exe tiver os seguintes parâmetros:
+* Fonte: Consolas
+* Estilo: Regular
+* Tamanho: 11
+* Escrita: Ocidental
+* */
+
 public class Main {
     //Função já definida no código
     static double function(double x) {
