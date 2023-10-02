@@ -12,7 +12,7 @@ public class Riemann {
     private final BufferedWriter writer;
 
     public Riemann() throws IOException, InterruptedException {
-        gerenciador.createFolder();//Criar a pasta
+        gerenciador.createFolder();
         writer = new BufferedWriter(new FileWriter(gerenciador.getTxt()));
     }
 

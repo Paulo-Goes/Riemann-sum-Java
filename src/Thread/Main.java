@@ -14,7 +14,6 @@ import java.util.function.Function;
  * */
 
 public class Main {
-    //Função já definida no código
     public static double function(double x) {
         return Math.pow(x, 2);//x^2
     }
@@ -26,13 +25,16 @@ public class Main {
         Function<Double, Double> function = Main::function; //Recebe a função
         String s = "x^2";
 
-        double a = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
+        /*double a = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
         double b = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite superior da integral: "));
 
         int nTotal = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos (acima de 1): "));
         while(nTotal <= 1){
             nTotal = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos (acima de 1): "));
-        }
+        }*/
+        double a = 0;
+        double b = 1;
+        int nTotal = 100000;
         int nMetade = nTotal / 2;
 
         GerenciadorDeArquivos g = new GerenciadorDeArquivos(s, a, b, nTotal);
@@ -48,13 +50,14 @@ public class Main {
         t1.join();
         t2.join();
 
+        System.out.println("Done");
+
         for (int i = nMetade + 1; i < nTotal + 1; i++) {
             lista1.addOrdered(lista2.search(i));
         }
-
-        for (int i = 1; i < nTotal + 1; i++) {
-            System.out.println(lista1.search(i).getIntervalo());
-        }
+        System.out.println("Ordered");
+        System.out.println("Writing");
         g.writeText(nTotal, lista1);
+        System.out.println("Done");
     }
 }

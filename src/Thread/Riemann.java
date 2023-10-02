@@ -17,15 +17,10 @@ public class Riemann implements Runnable {
         this.n = n;
     }
 
-    /*
-     * Calculo da soma de Riemann usando os parâmetros recebidos da Thread.Main.java
-     *
-     * */
     private Dados calculate(int i) {
         double deltaX = (b - a) / nTotal;
-        double soma = 0;//Armazenará a soma das áreas de cada intervalo
+        double soma = 0;
 
-        //Efetua a soma para cada intervalo
         double x1 = a + i * deltaX;
         double area = function.apply(x1) * deltaX;
         soma += area;
