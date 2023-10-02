@@ -1,13 +1,26 @@
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 public class GerenciadorDeArquivos {
-    private final File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());//Área de trabalho
-    private final File folder = new File(desktop, "Calculo 2 Riemann - resultados");//Pasta de arquivos
-    private final File txt = getTxtFile();
+    private final File desktop; //Área de trabalho
+    private final File folder; //Pasta de arquivos
+    private final File txt;
+    private BufferedWriter writer;
+    private DecimalFormat formato;
+
+    public GerenciadorDeArquivos() throws IOException {
+        desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());
+        folder = new File(desktop, "Calculo 2 Riemann - resultados");
+        txt = getTxtFile();
+        writer = new BufferedWriter(new FileWriter(txt));
+        formato = new DecimalFormat("#.################");
+    }
 
     public void createFolder() throws InterruptedException { //Cria a pasta de respostas caso não exista
         if (!folder.exists()) {
@@ -56,5 +69,54 @@ public class GerenciadorDeArquivos {
 
     public File getTxt() {
         return txt;
+    }
+
+    private void writeText(DecimalFormat format, int i, double x1, double area, double soma) throws IOException {
+        writer.write("=================================================\n");
+
+        int aux = String.valueOf(i + 1).length();//Lógica para formatar o documento de texto
+        int aux1 = 48;
+        String s = "Intervalo:";
+        if (aux % 2 == 0) {
+            s += " ";
+        }
+        writer.write(String.format("|%s|%n", centerText(s + (i + 1), aux1)));
+
+
+        aux = format.format(x1).length() - 2;//Lógica para formatar o documento de texto
+        s = "X1:";
+        if (aux % 2 != 0) {
+            s += " ";
+            aux1--;
+        }
+        writer.write(String.format("|%s|%n", centerText(s + format.format(x1), aux1)));
+
+
+        s = format.format(area);//Lógica para formatar o documento de texto
+        aux = s.length() - 2;
+        s = "Área parcial:";
+        aux1 = 48;
+        if (aux % 2 != 0) {
+            aux1--;
+            s += " ";
+        }
+        writer.write(String.format("|%s|%n", centerText(s + format.format(area), aux1)));
+
+
+        s = format.format(soma);//Lógica para formatar o documento de texto
+        aux = s.length() - 2;
+        s = "Resultado parcial:";
+        aux1 = 48;
+        if (aux % 2 == 0) {
+            aux1--;
+            s += " ";
+        }
+        writer.write(String.format("|%s|%n", centerText(s + format.format(soma), aux1)));
+        writer.write("=================================================\n");
+    }
+
+    private static String centerText(String text, int width) {
+        int padding = (width - text.length()) / 2;
+        return " ".repeat(Math.max(0, padding)) + text + " ".repeat(Math.max(0, padding));
     }
 }
