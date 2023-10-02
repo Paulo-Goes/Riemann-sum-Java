@@ -1,4 +1,4 @@
-package Thread;
+package NoThread;
 
 import javax.swing.*;
 import java.util.function.Function;

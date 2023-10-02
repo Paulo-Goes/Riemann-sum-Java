@@ -10,14 +10,13 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class GerenciadorDeArquivos {
-    private final File desktop; //Área de trabalho
-    private final File folder; //Pasta de arquivos
+    private final File desktop;
+    private final File folder;
     private final File txt;
     private final BufferedWriter writer;
     private final DecimalFormat format;
     private final String s;
     private final double a, b;
-    private final int n;
     private boolean hasTitle;
 
     public GerenciadorDeArquivos(String s, double a, double b, int n) throws IOException, InterruptedException {
@@ -30,11 +29,10 @@ public class GerenciadorDeArquivos {
         this.s = s;
         this.a = a;
         this.b = b;
-        this.n = n;
         hasTitle = false;
     }
 
-    private void createFolder() throws InterruptedException { //Cria a pasta de respostas caso não exista
+    private void createFolder() throws InterruptedException {
         if (!folder.exists()) {
             boolean created = folder.mkdirs();
             if (created) {
@@ -48,7 +46,7 @@ public class GerenciadorDeArquivos {
         Thread.sleep(1000);
     }
 
-    private File getTxtFile() throws IOException { //Cria um novo documento de texto
+    private File getTxtFile() {
         String baseFileName = "resultado.txt";
         int fileNumber = 0;
         File txtFile;
@@ -64,13 +62,12 @@ public class GerenciadorDeArquivos {
     }
 
     public void showText() throws IOException, InterruptedException, AWTException {
-        //Comando para abrir o documento de texto
         ProcessBuilder pb = new ProcessBuilder("notepad.exe", txt.getAbsolutePath());
         pb.start();
 
-        Thread.sleep(1000);//Espera 2 segundos para que o documento de texto abra
+        Thread.sleep(1000);
 
-        Robot robot = new Robot(); //Maximiza a janela
+        Robot robot = new Robot();
         robot.keyPress(KeyEvent.VK_WINDOWS);
         robot.keyPress(KeyEvent.VK_UP);
         robot.keyRelease(KeyEvent.VK_UP);
@@ -87,7 +84,7 @@ public class GerenciadorDeArquivos {
         for (int i = 1; i < n + 1; i++) {
             writer.write("=================================================\n");
 
-            int aux = String.valueOf(i).length();//Lógica para formatar o documento de texto
+            int aux = String.valueOf(i).length();
             int aux1 = 48;
             String s = "Intervalo:";
             if (aux % 2 == 0) {
@@ -96,7 +93,7 @@ public class GerenciadorDeArquivos {
             writer.write(String.format("|%s|%n", centerText(s + (i), aux1)));
 
 
-            aux = format.format(l.search(i).getX1()).length() - 2;//Lógica para formatar o documento de texto
+            aux = format.format(l.search(i).getX1()).length() - 2;
             s = "X1:";
             if (aux % 2 != 0) {
                 s += " ";
@@ -105,7 +102,7 @@ public class GerenciadorDeArquivos {
             writer.write(String.format("|%s|%n", centerText(s + format.format(l.search(i).getX1()), aux1)));
 
 
-            s = format.format(l.search(i).getArea());//Lógica para formatar o documento de texto
+            s = format.format(l.search(i).getArea());
             aux = s.length() - 2;
             s = "Área parcial:";
             aux1 = 48;
@@ -116,7 +113,7 @@ public class GerenciadorDeArquivos {
             writer.write(String.format("|%s|%n", centerText(s + format.format(l.search(i).getArea()), aux1)));
 
 
-            s = format.format(l.search(i).getSoma());//Lógica para formatar o documento de texto
+            s = format.format(l.search(i).getSoma());
             aux = s.length() - 2;
             s = "Resultado parcial:";
             aux1 = 48;

@@ -7,11 +7,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class GerenciadorDeArquivos {
-    private final File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());//Área de trabalho
-    private final File folder = new File(desktop, "Calculo 2 Thread.Riemann - resultados");//Pasta de arquivos
+    private final File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());
+    private final File folder = new File(desktop, "Calculo 2 Thread.Riemann - resultados");
     private final File txt = getTxtFile();
 
-    public void createFolder() throws InterruptedException { //Cria a pasta de respostas caso não exista
+    public void createFolder() throws InterruptedException {
         if (!folder.exists()) {
             boolean created = folder.mkdirs();
             if (created) {
@@ -25,7 +25,7 @@ public class GerenciadorDeArquivos {
         Thread.sleep(1000);
     }
 
-    private File getTxtFile() { //Cria um novo documento de texto
+    private File getTxtFile() {
         String baseFileName = "resultado.txt";
         int fileNumber = 0;
         File txtFile;
@@ -41,13 +41,12 @@ public class GerenciadorDeArquivos {
     }
 
     public void showText() throws IOException, InterruptedException, AWTException {
-        //Comando para abrir o documento de texto
         ProcessBuilder pb = new ProcessBuilder("notepad.exe", txt.getAbsolutePath());
         pb.start();
 
-        Thread.sleep(1000);//Espera 2 segundos para que o documento de texto abra
+        Thread.sleep(1000);
 
-        Robot robot = new Robot(); //Maximiza a janela
+        Robot robot = new Robot();
         robot.keyPress(KeyEvent.VK_WINDOWS);
         robot.keyPress(KeyEvent.VK_UP);
         robot.keyRelease(KeyEvent.VK_UP);

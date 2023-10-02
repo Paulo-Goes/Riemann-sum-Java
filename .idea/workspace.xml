@@ -63,7 +63,7 @@
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Antigo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Thread.Antigo" />
+      <option name="MAIN_CLASS_NAME" value="NoThread.Antigo" />
       <module name="Calculo 2 Riemann" />
       <method v="2">
         <option name="Make" enabled="true" />
