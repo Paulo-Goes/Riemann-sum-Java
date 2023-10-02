@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class GerenciadorDeArquivos {
     private final File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());//Área de trabalho
-    private final File folder = new File(desktop, "Calculo 2 Riemann - resultados");//Pasta de arquivos
+    private final File folder = new File(desktop, "Calculo 2 Thread.Riemann - resultados");//Pasta de arquivos
     private final File txt = getTxtFile();
 
     public void createFolder() throws InterruptedException { //Cria a pasta de respostas caso não exista

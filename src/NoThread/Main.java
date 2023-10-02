@@ -33,7 +33,7 @@ public class Main {
         int n = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos: "));
 
         /*
-         * Cria e calcula a soma de Riemann passando os parâmetros
+         * Cria e calcula a soma de Thread.Riemann passando os parâmetros
          * */
         Riemann r = new Riemann();
         r.calculate(function, a, b, n, s);

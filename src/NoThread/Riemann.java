@@ -26,12 +26,12 @@ public class Riemann {
     }
 
     /*
-     * Calculo da soma de Riemann usando os parâmetros recebidos da Main.java
+     * Calculo da soma de Thread.Riemann usando os parâmetros recebidos da Thread.Main.java
      *
      * */
     public void calculate(Function<Double, Double> f, double a, double b, int n, String s) throws IOException, InterruptedException, AWTException {
         //Cabeçalho
-        writer.write("Soma de Riemann\nf(x) = " + s + " | a = " + a + " | b = " + b + " | Intervalos = " + n + "\n");
+        writer.write("Soma de Thread.Riemann\nf(x) = " + s + " | a = " + a + " | b = " + b + " | Intervalos = " + n + "\n");
 
         /*
          * valores: Armazena a área de cada intervalo para ser usado mais tarde

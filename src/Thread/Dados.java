@@ -1,3 +1,5 @@
+package Thread;
+
 public class Dados {
     private int intervalo;
     private double x1, area, soma;

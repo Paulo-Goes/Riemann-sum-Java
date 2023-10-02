@@ -10,13 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e557ddeb-98ab-494a-bfc6-fb7637c12511" name="Changes" comment="Melhorias de vida">
-      <change afterPath="$PROJECT_DIR$/src/Dados.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ListaOrdenada.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/No.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GerenciadorDeArquivos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Riemann.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Antigo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Antigo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Dados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Dados.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/GerenciadorDeArquivos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ListaOrdenada.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/ListaOrdenada.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/No.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/No.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NoThread/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/GerenciadorDeArquivos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NoThread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NoThread/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Riemann.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Riemann.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,23 +49,19 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
-}</component>
   <component name="ProjectId" id="2VziHyQE0WypJfMfKvMhMOjFHES" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;proofread&quot;
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Paulo\IdeaProjects\Calculo 2 Riemann\src" />
@@ -71,14 +72,14 @@
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Antigo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Antigo" />
+      <option name="MAIN_CLASS_NAME" value="Thread.Antigo" />
       <module name="Calculo 2 Riemann" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
+      <option name="MAIN_CLASS_NAME" value="Thread.Main" />
       <module name="Calculo 2 Riemann" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -217,42 +218,23 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Main.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Riemann.java</url>
-          <line>36</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ListaOrdenada.java</url>
+          <url>file://$PROJECT_DIR$/src/Thread/ListaOrdenada.java</url>
           <line>25</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Riemann.java</url>
-          <line>34</line>
-          <properties class="Riemann" method="run">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/ListaOrdenada.java</url>
+          <url>file://$PROJECT_DIR$/src/Thread/ListaOrdenada.java</url>
           <line>21</line>
-          <properties class="ListaOrdenada" method="addOrdered">
+          <properties class="Thread.ListaOrdenada">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/ListaOrdenada.java</url>
+          <url>file://$PROJECT_DIR$/src/Thread/ListaOrdenada.java</url>
           <line>6</line>
-          <properties class="ListaOrdenada" method="addFirst">
+          <properties class="Thread.ListaOrdenada">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>

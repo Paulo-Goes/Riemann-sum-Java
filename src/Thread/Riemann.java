@@ -1,7 +1,9 @@
+package Thread;
+
 import java.util.function.Function;
 
 public class Riemann implements Runnable {
-    private ListaOrdenada lista;
+    private final ListaOrdenada lista;
     private final Function<Double, Double> function;
     private final double a, b;
     private final int nTotal, n;
@@ -16,7 +18,7 @@ public class Riemann implements Runnable {
     }
 
     /*
-     * Calculo da soma de Riemann usando os parâmetros recebidos da Main.java
+     * Calculo da soma de Riemann usando os parâmetros recebidos da Thread.Main.java
      *
      * */
     private Dados calculate(int i) {
