@@ -9,19 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e557ddeb-98ab-494a-bfc6-fb7637c12511" name="Changes" comment="Melhorias de vida">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="e557ddeb-98ab-494a-bfc6-fb7637c12511" name="Changes" comment="Ultimo commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Antigo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Antigo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Dados.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/GerenciadorDeArquivos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ListaOrdenada.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/ListaOrdenada.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/No.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/No.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NoThread/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/GerenciadorDeArquivos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NoThread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NoThread/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Riemann.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Riemann.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Thread/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/GerenciadorDeArquivos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Thread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,20 +208,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Thread/ListaOrdenada.java</url>
-          <line>25</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Thread/ListaOrdenada.java</url>
-          <line>21</line>
-          <properties class="Thread.ListaOrdenada">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Thread/ListaOrdenada.java</url>
           <line>6</line>

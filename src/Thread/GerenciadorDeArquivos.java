@@ -79,12 +79,12 @@ public class GerenciadorDeArquivos {
         System.out.println("Maximizado");
     }
 
-    public void writeText(int n, ListaOrdenada l) throws IOException {
+    public void writeText(int n, ListaOrdenada l) throws IOException, InterruptedException, AWTException {
         if (!hasTitle) {
             writer.write("Soma de Riemann\nf(x) = " + s + " | a = " + a + " | b = " + b + " | Intervalos = " + n + "\n");
             hasTitle = true;
         }
-        for (int i = 1; i < n; i++) {
+        for (int i = 1; i < n + 1; i++) {
             writer.write("=================================================\n");
 
             int aux = String.valueOf(i).length();//Lógica para formatar o documento de texto
@@ -130,10 +130,10 @@ public class GerenciadorDeArquivos {
                 writer.flush();
             }
         }
-        System.out.println("Resultado final: " + format.format(l.search(n).getSoma()));
         writer.flush();
         writer.write("\n\nResultado final: " + l.search(n).getSoma());
         writer.close();
+        showText();
     }
 
     private static String centerText(String text, int width) {
