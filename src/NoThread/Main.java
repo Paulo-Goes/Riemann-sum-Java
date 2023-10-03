@@ -25,7 +25,7 @@ public class Main {
         /*double a = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
         double b = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite superior da integral: "));
         int n = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos: "));
-        */
+         */
         double a = 0;
         double b = 1;
         int n = 100000;

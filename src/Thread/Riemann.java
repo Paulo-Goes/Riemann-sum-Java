@@ -19,9 +19,11 @@ public class Riemann implements Runnable {
     }
 
     private Dados calculate(int i) {
-        double deltaX = (b - a) / actualTotal;
         double soma = 0;
-
+        if(i != 0 && i < actualTotal/2){
+            soma = dados[i - 1].getSoma();
+        }
+        double deltaX = (b - a) / actualTotal;
         double x1 = a + i * deltaX;
         double area = function.apply(x1) * deltaX;
         soma += area;
