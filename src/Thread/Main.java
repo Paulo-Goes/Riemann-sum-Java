@@ -24,20 +24,17 @@ public class Main {
         Function<Double, Double> function = Main::function;
         String s = "x^2";
 
-        /*double a = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
+        double a = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
         double b = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite superior da integral: "));
 
         int n = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos (acima de 1): "));
         while(n <= 1){
             n = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos (acima de 1): "));
-        }*/
-        double a = 0;
-        double b = 1;
-        int n = 100000;
+        }
 
         dados = new Dados[n];
 
-        GerenciadorDeArquivos g = new GerenciadorDeArquivos(s, a, b, n);
+        GerenciadorDeArquivos g = new GerenciadorDeArquivos(s, a, b);
 
         Thread t1, t2;
 

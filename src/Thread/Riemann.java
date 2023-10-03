@@ -28,7 +28,7 @@ public class Riemann implements Runnable {
         double area = function.apply(x1) * deltaX;
         soma += area;
 
-        return new Dados((i + 1), x1, area, soma);
+        return new Dados(x1, area, soma);
     }
 
     @Override

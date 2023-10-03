@@ -10,13 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e557ddeb-98ab-494a-bfc6-fb7637c12511" name="Changes" comment="Threads">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_10_2023_02_31__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_02_10_2023_02_31__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NoThread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Thread/Dados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Dados.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Thread/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/GerenciadorDeArquivos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Thread/ListaOrdenada.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Thread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Thread/No.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Thread/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Riemann.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -226,17 +223,6 @@
     <MESSAGE value="Melhorias de vida" />
     <MESSAGE value="Threads" />
     <option name="LAST_COMMIT_MESSAGE" value="Threads" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Thread/Main.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

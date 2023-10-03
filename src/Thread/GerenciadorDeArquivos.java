@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class GerenciadorDeArquivos {
-    private final File desktop;
     private final File folder;
     private final File txt;
     private final BufferedWriter writer;
@@ -19,8 +18,8 @@ public class GerenciadorDeArquivos {
     private final double a, b;
     private boolean hasTitle;
 
-    public GerenciadorDeArquivos(String s, double a, double b, int n) throws IOException, InterruptedException {
-        desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());
+    public GerenciadorDeArquivos(String s, double a, double b) throws IOException, InterruptedException {
+        File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());
         folder = new File(desktop, "Calculo 2 Riemann - resultados");
         txt = getTxtFile();
         createFolder();

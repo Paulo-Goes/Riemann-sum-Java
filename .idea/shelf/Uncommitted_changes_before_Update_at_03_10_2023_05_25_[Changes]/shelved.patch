@@ -1,0 +1,545 @@
+Index: src/Thread/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Thread;\r\n\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\nimport java.io.IOException;\r\nimport java.util.function.Function;\r\n\r\n/*\r\n * Documento de texto so funciona se notepad.exe tiver os seguintes parâmetros:\r\n * Fonte: Consolas\r\n * Estilo: Regular\r\n * Tamanho: 11\r\n * Escrita: Ocidental\r\n * */\r\n\r\npublic class Main {\r\n    public static double function(double x) {\r\n        return Math.pow(x, 2);//x^2\r\n    }\r\n\r\n    public static void main(String[] args) throws InterruptedException, IOException, AWTException {\r\n        ListaOrdenada lista1 = new ListaOrdenada();\r\n        ListaOrdenada lista2 = new ListaOrdenada();\r\n\r\n        Function<Double, Double> function = Main::function; //Recebe a função\r\n        String s = \"x^2\";\r\n\r\n        /*double a = Double.parseDouble(JOptionPane.showInputDialog(\"Digite o limite inferior da integral: \"));\r\n        double b = Double.parseDouble(JOptionPane.showInputDialog(\"Digite o limite superior da integral: \"));\r\n\r\n        int nTotal = Integer.parseInt(JOptionPane.showInputDialog(\"Digite o número de intervalos (acima de 1): \"));\r\n        while(nTotal <= 1){\r\n            nTotal = Integer.parseInt(JOptionPane.showInputDialog(\"Digite o número de intervalos (acima de 1): \"));\r\n        }*/\r\n        double a = 0;\r\n        double b = 1;\r\n        int nTotal = 100000;\r\n        int nMetade = nTotal / 2;\r\n\r\n        GerenciadorDeArquivos g = new GerenciadorDeArquivos(s, a, b, nTotal);\r\n\r\n        Thread t1, t2;\r\n\r\n        t1 = new Thread(new Riemann(lista1, function, a, b, nMetade, 0));\r\n        t2 = new Thread(new Riemann(lista2, function, a, b, nTotal, nMetade));\r\n\r\n        t1.start();\r\n        t2.start();\r\n\r\n        t1.join();\r\n        t2.join();\r\n\r\n        System.out.println(\"Done\");\r\n\r\n        for (int i = nMetade + 1; i < nTotal + 1; i++) {\r\n            lista1.addOrdered(lista2.search(i));\r\n        }\r\n        System.out.println(\"Ordered\");\r\n        System.out.println(\"Writing\");\r\n        g.writeText(nTotal, lista1);\r\n        System.out.println(\"Done\");\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Thread/Main.java b/src/Thread/Main.java
+--- a/src/Thread/Main.java	(revision f8f6817fc57763e81c118d82ae851446198fa754)
++++ b/src/Thread/Main.java	(date 1696281476789)
+@@ -19,8 +19,8 @@
+     }
+ 
+     public static void main(String[] args) throws InterruptedException, IOException, AWTException {
+-        ListaOrdenada lista1 = new ListaOrdenada();
+-        ListaOrdenada lista2 = new ListaOrdenada();
++        Dados[] lista1;
++        Dados[] lista2;
+ 
+         Function<Double, Double> function = Main::function; //Recebe a função
+         String s = "x^2";
+@@ -28,21 +28,23 @@
+         /*double a = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
+         double b = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite superior da integral: "));
+ 
+-        int nTotal = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos (acima de 1): "));
+-        while(nTotal <= 1){
+-            nTotal = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos (acima de 1): "));
++        int n = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos (acima de 1): "));
++        while(n <= 1){
++            n = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos (acima de 1): "));
+         }*/
+         double a = 0;
+         double b = 1;
+-        int nTotal = 100000;
+-        int nMetade = nTotal / 2;
++        int n = 20;
+ 
+-        GerenciadorDeArquivos g = new GerenciadorDeArquivos(s, a, b, nTotal);
++        lista1 = new Dados[n];
++        lista2 = new Dados[n/2];
++
++        GerenciadorDeArquivos g = new GerenciadorDeArquivos(s, a, b, n);
+ 
+         Thread t1, t2;
+ 
+-        t1 = new Thread(new Riemann(lista1, function, a, b, nMetade, 0));
+-        t2 = new Thread(new Riemann(lista2, function, a, b, nTotal, nMetade));
++        t1 = new Thread(new Riemann(lista1, function, a, b, n/2, 0,n));
++        t2 = new Thread(new Riemann(lista2, function, a, b, n,  1 + n/2,n));
+ 
+         t1.start();
+         t2.start();
+@@ -51,13 +53,14 @@
+         t2.join();
+ 
+         System.out.println("Done");
+-
+-        for (int i = nMetade + 1; i < nTotal + 1; i++) {
+-            lista1.addOrdered(lista2.search(i));
++        int cont = 0;
++        for (int i = (n/2); i < n; i++) {
++            lista1[i] = lista2[cont];
++            cont++;
+         }
+         System.out.println("Ordered");
+         System.out.println("Writing");
+-        g.writeText(nTotal, lista1);
++        g.writeText(n, lista1);
+         System.out.println("Done");
+     }
+ }
+\ No newline at end of file
+Index: src/Thread/Riemann.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Thread;\r\n\r\nimport java.util.function.Function;\r\n\r\npublic class Riemann implements Runnable {\r\n    private final ListaOrdenada lista;\r\n    private final Function<Double, Double> function;\r\n    private final double a, b;\r\n    private final int nTotal, n;\r\n\r\n    public Riemann(ListaOrdenada lista ,Function<Double, Double> function, double a, double b, int nTotal, int n) {\r\n        this.lista = lista;\r\n        this.function = function;\r\n        this.a = a;\r\n        this.b = b;\r\n        this.nTotal = nTotal;\r\n        this.n = n;\r\n    }\r\n\r\n    private Dados calculate(int i) {\r\n        double deltaX = (b - a) / nTotal;\r\n        double soma = 0;\r\n\r\n        double x1 = a + i * deltaX;\r\n        double area = function.apply(x1) * deltaX;\r\n        soma += area;\r\n\r\n        return new Dados((i + 1), x1, area, soma);\r\n    }\r\n\r\n    @Override\r\n    public void run() {\r\n        for (int i = n; i < nTotal; i++) {\r\n            lista.addOrdered(calculate(i));\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Thread/Riemann.java b/src/Thread/Riemann.java
+--- a/src/Thread/Riemann.java	(revision f8f6817fc57763e81c118d82ae851446198fa754)
++++ b/src/Thread/Riemann.java	(date 1696281476773)
+@@ -3,22 +3,23 @@
+ import java.util.function.Function;
+ 
+ public class Riemann implements Runnable {
+-    private final ListaOrdenada lista;
++    private final Dados[] lista;
+     private final Function<Double, Double> function;
+     private final double a, b;
+-    private final int nTotal, n;
++    private final int nTotal, n, actual;
+ 
+-    public Riemann(ListaOrdenada lista ,Function<Double, Double> function, double a, double b, int nTotal, int n) {
++    public Riemann(Dados[] lista , Function<Double, Double> function, double a, double b, int nTotal, int n, int actual) {
+         this.lista = lista;
+         this.function = function;
+         this.a = a;
+         this.b = b;
+         this.nTotal = nTotal;
+         this.n = n;
++        this.actual = actual;
+     }
+ 
+     private Dados calculate(int i) {
+-        double deltaX = (b - a) / nTotal;
++        double deltaX = (b - a) / actual;
+         double soma = 0;
+ 
+         double x1 = a + i * deltaX;
+@@ -30,8 +31,10 @@
+ 
+     @Override
+     public void run() {
+-        for (int i = n; i < nTotal; i++) {
+-            lista.addOrdered(calculate(i));
++        int cont = 0;
++        for (int i = n - 1; i < nTotal; i++) {
++            lista[cont] = calculate((i + 1));
++            cont++;
+         }
+     }
+ }
+\ No newline at end of file
+Index: src/Thread/GerenciadorDeArquivos.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Thread;\r\n\r\nimport javax.swing.filechooser.FileSystemView;\r\nimport java.awt.*;\r\nimport java.awt.event.KeyEvent;\r\nimport java.io.BufferedWriter;\r\nimport java.io.File;\r\nimport java.io.FileWriter;\r\nimport java.io.IOException;\r\nimport java.text.DecimalFormat;\r\n\r\npublic class GerenciadorDeArquivos {\r\n    private final File desktop;\r\n    private final File folder;\r\n    private final File txt;\r\n    private final BufferedWriter writer;\r\n    private final DecimalFormat format;\r\n    private final String s;\r\n    private final double a, b;\r\n    private boolean hasTitle;\r\n\r\n    public GerenciadorDeArquivos(String s, double a, double b, int n) throws IOException, InterruptedException {\r\n        desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());\r\n        folder = new File(desktop, \"Calculo 2 Riemann - resultados\");\r\n        txt = getTxtFile();\r\n        createFolder();\r\n        writer = new BufferedWriter(new FileWriter(txt));\r\n        format = new DecimalFormat(\"#.################\");\r\n        this.s = s;\r\n        this.a = a;\r\n        this.b = b;\r\n        hasTitle = false;\r\n    }\r\n\r\n    private void createFolder() throws InterruptedException {\r\n        if (!folder.exists()) {\r\n            boolean created = folder.mkdirs();\r\n            if (created) {\r\n                System.out.println(\"Pasta criada.\");\r\n            } else {\r\n                System.err.println(\"Não foi possível criar a pasta.\");\r\n            }\r\n        } else {\r\n            System.out.println(\"A pasta já existe.\");\r\n        }\r\n        Thread.sleep(1000);\r\n    }\r\n\r\n    private File getTxtFile() {\r\n        String baseFileName = \"resultado.txt\";\r\n        int fileNumber = 0;\r\n        File txtFile;\r\n        do {\r\n            String fileName = baseFileName;\r\n            if (fileNumber > 0) {\r\n                fileName = baseFileName.replace(\".txt\", \"(\" + fileNumber + \").txt\");\r\n            }\r\n            txtFile = new File(folder, fileName);\r\n            fileNumber++;\r\n        } while (txtFile.exists());\r\n        return txtFile;\r\n    }\r\n\r\n    public void showText() throws IOException, InterruptedException, AWTException {\r\n        ProcessBuilder pb = new ProcessBuilder(\"notepad.exe\", txt.getAbsolutePath());\r\n        pb.start();\r\n\r\n        Thread.sleep(1000);\r\n\r\n        Robot robot = new Robot();\r\n        robot.keyPress(KeyEvent.VK_WINDOWS);\r\n        robot.keyPress(KeyEvent.VK_UP);\r\n        robot.keyRelease(KeyEvent.VK_UP);\r\n        robot.keyRelease(KeyEvent.VK_WINDOWS);\r\n\r\n        System.out.println(\"Maximizado\");\r\n    }\r\n\r\n    public void writeText(int n, ListaOrdenada l) throws IOException, InterruptedException, AWTException {\r\n        if (!hasTitle) {\r\n            writer.write(\"Soma de Riemann\\nf(x) = \" + s + \" | a = \" + a + \" | b = \" + b + \" | Intervalos = \" + n + \"\\n\");\r\n            hasTitle = true;\r\n        }\r\n        for (int i = 1; i < n + 1; i++) {\r\n            writer.write(\"=================================================\\n\");\r\n\r\n            int aux = String.valueOf(i).length();\r\n            int aux1 = 48;\r\n            String s = \"Intervalo:\";\r\n            if (aux % 2 == 0) {\r\n                s += \" \";\r\n            }\r\n            writer.write(String.format(\"|%s|%n\", centerText(s + (i), aux1)));\r\n\r\n\r\n            aux = format.format(l.search(i).getX1()).length() - 2;\r\n            s = \"X1:\";\r\n            if (aux % 2 != 0) {\r\n                s += \" \";\r\n                aux1--;\r\n            }\r\n            writer.write(String.format(\"|%s|%n\", centerText(s + format.format(l.search(i).getX1()), aux1)));\r\n\r\n\r\n            s = format.format(l.search(i).getArea());\r\n            aux = s.length() - 2;\r\n            s = \"Área parcial:\";\r\n            aux1 = 48;\r\n            if (aux % 2 != 0) {\r\n                aux1--;\r\n                s += \" \";\r\n            }\r\n            writer.write(String.format(\"|%s|%n\", centerText(s + format.format(l.search(i).getArea()), aux1)));\r\n\r\n\r\n            s = format.format(l.search(i).getSoma());\r\n            aux = s.length() - 2;\r\n            s = \"Resultado parcial:\";\r\n            aux1 = 48;\r\n            if (aux % 2 == 0) {\r\n                aux1--;\r\n                s += \" \";\r\n            }\r\n            writer.write(String.format(\"|%s|%n\", centerText(s + format.format(l.search(i).getSoma()), aux1)));\r\n            writer.write(\"=================================================\\n\");\r\n            if(i % 3000 == 0){\r\n                writer.flush();\r\n            }\r\n        }\r\n        writer.flush();\r\n        writer.write(\"\\n\\nResultado final: \" + l.search(n).getSoma());\r\n        writer.close();\r\n        showText();\r\n    }\r\n\r\n    private static String centerText(String text, int width) {\r\n        int padding = (width - text.length()) / 2;\r\n        return \" \".repeat(Math.max(0, padding)) + text + \" \".repeat(Math.max(0, padding));\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Thread/GerenciadorDeArquivos.java b/src/Thread/GerenciadorDeArquivos.java
+--- a/src/Thread/GerenciadorDeArquivos.java	(revision f8f6817fc57763e81c118d82ae851446198fa754)
++++ b/src/Thread/GerenciadorDeArquivos.java	(date 1696279975300)
+@@ -76,15 +76,16 @@
+         System.out.println("Maximizado");
+     }
+ 
+-    public void writeText(int n, ListaOrdenada l) throws IOException, InterruptedException, AWTException {
++    public void writeText(int n, Dados[] l) throws IOException, InterruptedException, AWTException {
+         if (!hasTitle) {
+             writer.write("Soma de Riemann\nf(x) = " + s + " | a = " + a + " | b = " + b + " | Intervalos = " + n + "\n");
+             hasTitle = true;
+         }
+-        for (int i = 1; i < n + 1; i++) {
++        int i = 1;
++        for (int h = 0; h < n - 1; h++) {
+             writer.write("=================================================\n");
+ 
+-            int aux = String.valueOf(i).length();
++            int aux = String.valueOf(h).length();
+             int aux1 = 48;
+             String s = "Intervalo:";
+             if (aux % 2 == 0) {
+@@ -93,16 +94,16 @@
+             writer.write(String.format("|%s|%n", centerText(s + (i), aux1)));
+ 
+ 
+-            aux = format.format(l.search(i).getX1()).length() - 2;
++            aux = format.format(l[h].getX1()).length() - 2;
+             s = "X1:";
+             if (aux % 2 != 0) {
+                 s += " ";
+                 aux1--;
+             }
+-            writer.write(String.format("|%s|%n", centerText(s + format.format(l.search(i).getX1()), aux1)));
++            writer.write(String.format("|%s|%n", centerText(s + format.format(l[h].getX1()), aux1)));
+ 
+ 
+-            s = format.format(l.search(i).getArea());
++            s = format.format(l[h].getArea());
+             aux = s.length() - 2;
+             s = "Área parcial:";
+             aux1 = 48;
+@@ -110,10 +111,10 @@
+                 aux1--;
+                 s += " ";
+             }
+-            writer.write(String.format("|%s|%n", centerText(s + format.format(l.search(i).getArea()), aux1)));
++            writer.write(String.format("|%s|%n", centerText(s + format.format(l[h].getArea()), aux1)));
+ 
+ 
+-            s = format.format(l.search(i).getSoma());
++            s = format.format(l[h].getSoma());
+             aux = s.length() - 2;
+             s = "Resultado parcial:";
+             aux1 = 48;
+@@ -121,14 +122,15 @@
+                 aux1--;
+                 s += " ";
+             }
+-            writer.write(String.format("|%s|%n", centerText(s + format.format(l.search(i).getSoma()), aux1)));
++            writer.write(String.format("|%s|%n", centerText(s + format.format(l[h].getSoma()), aux1)));
+             writer.write("=================================================\n");
+-            if(i % 3000 == 0){
++            if(h % 3000 == 0){
+                 writer.flush();
+             }
++            i++;
+         }
+         writer.flush();
+-        writer.write("\n\nResultado final: " + l.search(n).getSoma());
++        writer.write("\n\nResultado final: " + l[(n - 2)].getSoma());
+         writer.close();
+         showText();
+     }
+Index: src/Thread/Dados.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Thread;\r\n\r\npublic class Dados {\r\n    private int intervalo;\r\n    private double x1, area, soma;\r\n\r\n    public Dados(int n, double x1, double area, double soma){\r\n        intervalo = n;\r\n        this.x1 = x1;\r\n        this.area = area;\r\n        this.soma = soma;\r\n    }\r\n\r\n    public int getIntervalo() {\r\n        return intervalo;\r\n    }\r\n\r\n    public double getX1() {\r\n        return x1;\r\n    }\r\n\r\n    public double getArea() {\r\n        return area;\r\n    }\r\n\r\n    public double getSoma() {\r\n        return soma;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Thread/Dados.java b/src/Thread/Dados.java
+--- a/src/Thread/Dados.java	(revision f8f6817fc57763e81c118d82ae851446198fa754)
++++ b/src/Thread/Dados.java	(date 1696280533222)
+@@ -11,19 +11,15 @@
+         this.soma = soma;
+     }
+ 
+-    public int getIntervalo() {
+-        return intervalo;
+-    }
+-
+-    public double getX1() {
++    public synchronized double getX1() {
+         return x1;
+     }
+ 
+-    public double getArea() {
++    public synchronized double getArea() {
+         return area;
+     }
+ 
+-    public double getSoma() {
++    public synchronized double getSoma() {
+         return soma;
+     }
+ }
+\ No newline at end of file
+Index: src/Thread/No.java
+===================================================================
+diff --git a/src/Thread/No.java b/src/Thread/No.java
+deleted file mode 100644
+--- a/src/Thread/No.java	(revision f8f6817fc57763e81c118d82ae851446198fa754)
++++ /dev/null	(revision f8f6817fc57763e81c118d82ae851446198fa754)
+@@ -1,23 +0,0 @@
+-package Thread;
+-
+-public class No {
+-    private Dados dados;
+-    private No next;
+-
+-    public No(Dados dados){
+-        this.dados = dados;
+-        next = null;
+-    }
+-
+-    public Dados getDados() {
+-        return dados;
+-    }
+-
+-    public No getNext() {
+-        return next;
+-    }
+-
+-    public void setNext(No next) {
+-        this.next = next;
+-    }
+-}
+\ No newline at end of file
+Index: src/Thread/ListaOrdenada.java
+===================================================================
+diff --git a/src/Thread/ListaOrdenada.java b/src/Thread/ListaOrdenada.java
+deleted file mode 100644
+--- a/src/Thread/ListaOrdenada.java	(revision f8f6817fc57763e81c118d82ae851446198fa754)
++++ /dev/null	(revision f8f6817fc57763e81c118d82ae851446198fa754)
+@@ -1,76 +0,0 @@
+-package Thread;
+-
+-import java.util.NoSuchElementException;
+-import java.util.Objects;
+-
+-public class ListaOrdenada {
+-    private No head;
+-
+-    private void addFirst(Dados value) {
+-        No no = new No(value);
+-        no.setNext(head);
+-        head = no;
+-    }
+-
+-    public int size(){
+-        int i = 0;
+-        No size = head;
+-        while(size != null){
+-            i++;
+-            size = size.getNext();
+-        }
+-        return i;
+-    }
+-    public void addOrdered(Dados value) {
+-        if(isEmpty() || head.getDados().getIntervalo() > value.getIntervalo()){
+-            addFirst(value);
+-        }else{
+-            No aux = head;
+-            No no = new No(value);
+-            while (aux.getNext() != null) {
+-                if(aux.getNext().getDados().getIntervalo() > value.getIntervalo()){
+-                    break;
+-                }
+-                aux = aux.getNext();
+-            }
+-            no.setNext(aux.getNext());
+-            aux.setNext(no);
+-        }
+-    }
+-
+-    public Dados search(Integer valueSearched) {
+-        if(isEmpty()){
+-            return null;
+-        }
+-        No search = head;
+-        while(search != null){
+-            if(search.getDados().getIntervalo() == valueSearched){
+-                return search.getDados();
+-            }
+-            search = search.getNext();
+-        }
+-        return null;
+-    }
+-
+-    public boolean isEmpty() {
+-        return head == null;
+-    }
+-
+-    public void delete(Integer value) {
+-        if (isEmpty()) {
+-            throw new NoSuchElementException("Lista vazia.");
+-        }
+-        if (Objects.equals(head.getDados().getIntervalo(), value)) {
+-            head = head.getNext();
+-        } else {
+-            No search = head;
+-            while (search != null) {
+-                if (Objects.equals(search.getNext().getDados().getIntervalo(), value)) {
+-                    search.setNext(search.getNext().getNext());
+-                    return;
+-                }
+-                search = search.getNext();
+-            }
+-        }
+-    }
+-}
+\ No newline at end of file
+Index: src/NoThread/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package NoThread;\r\n\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\nimport java.io.IOException;\r\nimport java.util.function.Function;\r\n\r\n/*\r\n* Documento de texto so funciona se notepad.exe tiver os seguintes parâmetros:\r\n* Fonte: Consolas\r\n* Estilo: Regular\r\n* Tamanho: 11\r\n* Escrita: Ocidental\r\n* */\r\n\r\npublic class Main {\r\n    public static double function(double x) {\r\n        return Math.pow(x, 2);//x^2\r\n    }\r\n\r\n    public static void main(String[] args) throws IOException, InterruptedException, AWTException {\r\n        Function<Double, Double> function = Main::function;\r\n        String s = \"x^2\";\r\n\r\n        /*double a = Double.parseDouble(JOptionPane.showInputDialog(\"Digite o limite inferior da integral: \"));\r\n        double b = Double.parseDouble(JOptionPane.showInputDialog(\"Digite o limite superior da integral: \"));\r\n        int n = Integer.parseInt(JOptionPane.showInputDialog(\"Digite o número de intervalos: \"));\r\n        */\r\n        double a = 0;\r\n        double b = 1;\r\n        int n = 100000;\r\n\r\n        Riemann r = new Riemann();\r\n        r.calculate(function, a, b, n, s);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/NoThread/Main.java b/src/NoThread/Main.java
+--- a/src/NoThread/Main.java	(revision f8f6817fc57763e81c118d82ae851446198fa754)
++++ b/src/NoThread/Main.java	(date 1696274836123)
+@@ -22,13 +22,9 @@
+         Function<Double, Double> function = Main::function;
+         String s = "x^2";
+ 
+-        /*double a = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
++        double a = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
+         double b = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite superior da integral: "));
+         int n = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos: "));
+-        */
+-        double a = 0;
+-        double b = 1;
+-        int n = 100000;
+ 
+         Riemann r = new Riemann();
+         r.calculate(function, a, b, n, s);
+Index: src/NoThread/GerenciadorDeArquivos.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package NoThread;\r\n\r\nimport javax.swing.filechooser.FileSystemView;\r\nimport java.awt.*;\r\nimport java.awt.event.KeyEvent;\r\nimport java.io.File;\r\nimport java.io.IOException;\r\n\r\npublic class GerenciadorDeArquivos {\r\n    private final File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());\r\n    private final File folder = new File(desktop, \"Calculo 2 Thread.Riemann - resultados\");\r\n    private final File txt = getTxtFile();\r\n\r\n    public void createFolder() throws InterruptedException {\r\n        if (!folder.exists()) {\r\n            boolean created = folder.mkdirs();\r\n            if (created) {\r\n                System.out.println(\"Pasta criada.\");\r\n            } else {\r\n                System.err.println(\"Não foi possível criar a pasta.\");\r\n            }\r\n        } else {\r\n            System.out.println(\"A pasta já existe.\");\r\n        }\r\n        Thread.sleep(1000);\r\n    }\r\n\r\n    private File getTxtFile() {\r\n        String baseFileName = \"resultado.txt\";\r\n        int fileNumber = 0;\r\n        File txtFile;\r\n        do {\r\n            String fileName = baseFileName;\r\n            if (fileNumber > 0) {\r\n                fileName = baseFileName.replace(\".txt\", \"(\" + fileNumber + \").txt\");\r\n            }\r\n            txtFile = new File(folder, fileName);\r\n            fileNumber++;\r\n        } while (txtFile.exists());\r\n        return txtFile;\r\n    }\r\n\r\n    public void showText() throws IOException, InterruptedException, AWTException {\r\n        ProcessBuilder pb = new ProcessBuilder(\"notepad.exe\", txt.getAbsolutePath());\r\n        pb.start();\r\n\r\n        Thread.sleep(1000);\r\n\r\n        Robot robot = new Robot();\r\n        robot.keyPress(KeyEvent.VK_WINDOWS);\r\n        robot.keyPress(KeyEvent.VK_UP);\r\n        robot.keyRelease(KeyEvent.VK_UP);\r\n        robot.keyRelease(KeyEvent.VK_WINDOWS);\r\n\r\n        System.out.println(\"Maximizado\");\r\n    }\r\n\r\n    public File getTxt() {\r\n        return txt;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/NoThread/GerenciadorDeArquivos.java b/src/NoThread/GerenciadorDeArquivos.java
+--- a/src/NoThread/GerenciadorDeArquivos.java	(revision f8f6817fc57763e81c118d82ae851446198fa754)
++++ b/src/NoThread/GerenciadorDeArquivos.java	(date 1696274819217)
+@@ -8,7 +8,7 @@
+ 
+ public class GerenciadorDeArquivos {
+     private final File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());
+-    private final File folder = new File(desktop, "Calculo 2 Thread.Riemann - resultados");
++    private final File folder = new File(desktop, "Calculo 2 Riemann - resultados");
+     private final File txt = getTxtFile();
+ 
+     public void createFolder() throws InterruptedException {
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ArtifactsWorkspaceSettings\">\r\n    <artifacts-to-build>\r\n      <artifact name=\"Calculo 2 Riemann:jar\" />\r\n    </artifacts-to-build>\r\n  </component>\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"e557ddeb-98ab-494a-bfc6-fb7637c12511\" name=\"Changes\" comment=\"Threads\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/NoThread/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/NoThread/Main.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/NoThread/Riemann.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/NoThread/Riemann.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/Thread/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Thread/Main.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/Thread/Riemann.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Thread/Riemann.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitSEFilterConfiguration\">\r\n    <file-type-list>\r\n      <filtered-out-file-type name=\"LOCAL_BRANCH\" />\r\n      <filtered-out-file-type name=\"REMOTE_BRANCH\" />\r\n      <filtered-out-file-type name=\"TAG\" />\r\n      <filtered-out-file-type name=\"COMMIT_BY_MESSAGE\" />\r\n    </file-type-list>\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\"><![CDATA[{\r\n  \"associatedIndex\": 3\r\n}]]></component>\r\n  <component name=\"ProjectId\" id=\"2VziHyQE0WypJfMfKvMhMOjFHES\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"ignore.virus.scanning.warn.message\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\Paulo\\IdeaProjects\\Calculo 2 Riemann\\src\" />\r\n    </key>\r\n    <key name=\"ExtractSuperBase.RECENT_KEYS\">\r\n      <recent name=\"\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.Main\">\r\n    <configuration name=\"Antigo\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"NoThread.Antigo\" />\r\n      <module name=\"Calculo 2 Riemann\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"Thread.Main\" />\r\n      <module name=\"Calculo 2 Riemann\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.Main\" />\r\n        <item itemvalue=\"Application.Antigo\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"e557ddeb-98ab-494a-bfc6-fb7637c12511\" name=\"Changes\" comment=\"\" />\r\n      <created>1695845225390</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1695845225390</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Funcionando\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1695845394701</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695845394701</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Melhorias de vida\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1695849954815</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695849954815</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Melhorias de vida\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1695850158265</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695850158265</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Melhorias de vida\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1695850181610</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695850181610</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Melhorias de vida\">\r\n      <created>1695911803364</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695911803364</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Melhorias de vida\">\r\n      <created>1695912199868</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695912199868</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Melhorias de vida\">\r\n      <created>1695912259804</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695912259804</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"Melhorias de vida\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1695930547179</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695930547179</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"Melhorias de vida\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1695930764907</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695930764907</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"Melhorias de vida\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1695930875987</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695930875987</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"Pequeno erro\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1695930933119</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695930933119</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"Melhorias de vida\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1695931339003</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1695931339003</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"Threads\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1696268764043</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1696268764043</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"Threads\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1696269034285</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1696269034285</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"15\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Funcionando\" />\r\n    <MESSAGE value=\"Pequeno erro\" />\r\n    <MESSAGE value=\"Melhorias de vida\" />\r\n    <MESSAGE value=\"Threads\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Threads\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <line-breakpoint enabled=\"true\" type=\"java-method\">\r\n          <url>file://$PROJECT_DIR$/src/Thread/ListaOrdenada.java</url>\r\n          <line>6</line>\r\n          <properties class=\"Thread.ListaOrdenada\">\r\n            <option name=\"EMULATED\" value=\"true\" />\r\n            <option name=\"WATCH_EXIT\" value=\"false\" />\r\n          </properties>\r\n          <option name=\"timeStamp\" value=\"6\" />\r\n        </line-breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n  </component>\r\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\r\n    <expand />\r\n    <select />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision f8f6817fc57763e81c118d82ae851446198fa754)
++++ b/.idea/workspace.xml	(date 1696281889866)
+@@ -11,9 +11,13 @@
+   <component name="ChangeListManager">
+     <list default="true" id="e557ddeb-98ab-494a-bfc6-fb7637c12511" name="Changes" comment="Threads">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/NoThread/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/GerenciadorDeArquivos.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/NoThread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Main.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/NoThread/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Riemann.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Thread/Dados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Dados.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Thread/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/GerenciadorDeArquivos.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Thread/ListaOrdenada.java" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/Thread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Main.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Thread/No.java" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/Thread/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Riemann.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -42,22 +46,22 @@
+   <component name="MarkdownSettingsMigration">
+     <option name="stateVersion" value="1" />
+   </component>
+-  <component name="ProjectColorInfo"><![CDATA[{
+-  "associatedIndex": 3
+-}]]></component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 3
++}</component>
+   <component name="ProjectId" id="2VziHyQE0WypJfMfKvMhMOjFHES" />
+   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "ignore.virus.scanning.warn.message": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="C:\Users\Paulo\IdeaProjects\Calculo 2 Riemann\src" />
+@@ -67,16 +71,28 @@
+     </key>
+   </component>
+   <component name="RunManager" selected="Application.Main">
+-    <configuration name="Antigo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="NoThread.Antigo" />
++    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="Thread.Main" />
+       <module name="Calculo 2 Riemann" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="Thread.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="Thread.Main" />
++    <configuration name="NoThread.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="NoThread.Main" />
+       <module name="Calculo 2 Riemann" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="NoThread.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+@@ -84,7 +100,7 @@
+     <recent_temporary>
+       <list>
+         <item itemvalue="Application.Main" />
+-        <item itemvalue="Application.Antigo" />
++        <item itemvalue="Application.NoThread.Main" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -206,7 +222,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1696269034285</updated>
+     </task>
+-    <option name="localTasksCounter" value="15" />
++    <task id="LOCAL-00015" summary="Threads">
++      <option name="closed" value="true" />
++      <created>1696270092029</created>
++      <option name="number" value="00015" />
++      <option name="presentableId" value="LOCAL-00015" />
++      <option name="project" value="LOCAL" />
++      <updated>1696270092029</updated>
++    </task>
++    <option name="localTasksCounter" value="16" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -230,14 +254,20 @@
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+       <breakpoints>
+-        <line-breakpoint enabled="true" type="java-method">
+-          <url>file://$PROJECT_DIR$/src/Thread/ListaOrdenada.java</url>
+-          <line>6</line>
+-          <properties class="Thread.ListaOrdenada">
+-            <option name="EMULATED" value="true" />
+-            <option name="WATCH_EXIT" value="false" />
+-          </properties>
+-          <option name="timeStamp" value="6" />
++        <line-breakpoint enabled="true" type="java-line">
++          <url>file://$PROJECT_DIR$/src/Thread/Riemann.java</url>
++          <line>28</line>
++          <option name="timeStamp" value="24" />
++        </line-breakpoint>
++        <line-breakpoint enabled="true" type="java-line">
++          <url>file://$PROJECT_DIR$/src/NoThread/Riemann.java</url>
++          <line>31</line>
++          <option name="timeStamp" value="25" />
++        </line-breakpoint>
++        <line-breakpoint enabled="true" type="java-line">
++          <url>file://$PROJECT_DIR$/src/NoThread/Riemann.java</url>
++          <line>32</line>
++          <option name="timeStamp" value="26" />
+         </line-breakpoint>
+       </breakpoints>
+     </breakpoint-manager>

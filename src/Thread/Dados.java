@@ -1,12 +1,10 @@
 package Thread;
 
 public class Dados {
-    private final int intervalo;
     private final double x1, area;
     private double soma;
 
-    public Dados(int n, double x1, double area, double soma){
-        intervalo = n;
+    public Dados(double x1, double area, double soma){
         this.x1 = x1;
         this.area = area;
         this.soma = soma;
@@ -16,19 +14,15 @@ public class Dados {
         this.soma = soma;
     }
 
-    public int getIntervalo() {
-        return intervalo;
-    }
-
-    public double getX1() {
+    public synchronized double getX1() {
         return x1;
     }
 
-    public double getArea() {
+    public synchronized double getArea() {
         return area;
     }
 
-    public double getSoma() {
+    public synchronized double getSoma() {
         return soma;
     }
 }
