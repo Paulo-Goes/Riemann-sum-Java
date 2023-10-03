@@ -3,22 +3,23 @@ package Thread;
 import java.util.function.Function;
 
 public class Riemann implements Runnable {
-    private final ListaOrdenada lista;
+    private final Dados[] dados;
     private final Function<Double, Double> function;
     private final double a, b;
-    private final int nTotal, n;
+    private final int total, n, actualTotal;
 
-    public Riemann(ListaOrdenada lista ,Function<Double, Double> function, double a, double b, int nTotal, int n) {
-        this.lista = lista;
+    public Riemann(Dados[] dados, Function<Double, Double> function, double a, double b, int n, int total, int actualTotal) {
+        this.dados = dados;
         this.function = function;
         this.a = a;
         this.b = b;
-        this.nTotal = nTotal;
         this.n = n;
+        this.total = total;
+        this.actualTotal = actualTotal;
     }
 
     private Dados calculate(int i) {
-        double deltaX = (b - a) / nTotal;
+        double deltaX = (b - a) / actualTotal;
         double soma = 0;
 
         double x1 = a + i * deltaX;
@@ -30,8 +31,8 @@ public class Riemann implements Runnable {
 
     @Override
     public void run() {
-        for (int i = n; i < nTotal; i++) {
-            lista.addOrdered(calculate(i));
+            for (int i = n; i < total; i++) {
+                dados[i] = calculate(i);
         }
     }
 }

@@ -1,4 +1,4 @@
-package Thread;
+/*package Thread;
 
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
@@ -76,7 +76,7 @@ public class GerenciadorDeArquivos {
         System.out.println("Maximizado");
     }
 
-    public void writeText(int n, ListaOrdenada l) throws IOException, InterruptedException, AWTException {
+    public void writeText(int n, Dados[] dados) throws IOException, InterruptedException, AWTException {
         if (!hasTitle) {
             writer.write("Soma de Riemann\nf(x) = " + s + " | a = " + a + " | b = " + b + " | Intervalos = " + n + "\n");
             hasTitle = true;
@@ -93,16 +93,16 @@ public class GerenciadorDeArquivos {
             writer.write(String.format("|%s|%n", centerText(s + (i), aux1)));
 
 
-            aux = format.format(l.search(i).getX1()).length() - 2;
+            aux = format.format(dados.search(i).getX1()).length() - 2;
             s = "X1:";
             if (aux % 2 != 0) {
                 s += " ";
                 aux1--;
             }
-            writer.write(String.format("|%s|%n", centerText(s + format.format(l.search(i).getX1()), aux1)));
+            writer.write(String.format("|%s|%n", centerText(s + format.format(dados.search(i).getX1()), aux1)));
 
 
-            s = format.format(l.search(i).getArea());
+            s = format.format(dados.search(i).getArea());
             aux = s.length() - 2;
             s = "Área parcial:";
             aux1 = 48;
@@ -110,10 +110,10 @@ public class GerenciadorDeArquivos {
                 aux1--;
                 s += " ";
             }
-            writer.write(String.format("|%s|%n", centerText(s + format.format(l.search(i).getArea()), aux1)));
+            writer.write(String.format("|%s|%n", centerText(s + format.format(dados.search(i).getArea()), aux1)));
 
 
-            s = format.format(l.search(i).getSoma());
+            s = format.format(dados.search(i).getSoma());
             aux = s.length() - 2;
             s = "Resultado parcial:";
             aux1 = 48;
@@ -121,14 +121,14 @@ public class GerenciadorDeArquivos {
                 aux1--;
                 s += " ";
             }
-            writer.write(String.format("|%s|%n", centerText(s + format.format(l.search(i).getSoma()), aux1)));
+            writer.write(String.format("|%s|%n", centerText(s + format.format(dados.search(i).getSoma()), aux1)));
             writer.write("=================================================\n");
             if(i % 3000 == 0){
                 writer.flush();
             }
         }
         writer.flush();
-        writer.write("\n\nResultado final: " + l.search(n).getSoma());
+        writer.write("\n\nResultado final: " + dados.search(n).getSoma());
         writer.close();
         showText();
     }
@@ -137,4 +137,4 @@ public class GerenciadorDeArquivos {
         int padding = (width - text.length()) / 2;
         return " ".repeat(Math.max(0, padding)) + text + " ".repeat(Math.max(0, padding));
     }
-}
+}*/

@@ -1,13 +1,18 @@
 package Thread;
 
 public class Dados {
-    private int intervalo;
-    private double x1, area, soma;
+    private final int intervalo;
+    private final double x1, area;
+    private double soma;
 
     public Dados(int n, double x1, double area, double soma){
         intervalo = n;
         this.x1 = x1;
         this.area = area;
+        this.soma = soma;
+    }
+
+    public void setSoma(double soma){
         this.soma = soma;
     }
 
