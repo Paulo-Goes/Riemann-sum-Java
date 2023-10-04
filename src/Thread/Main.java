@@ -32,7 +32,6 @@ public class Main {
     }
 
     public static void main(String[] args) throws InterruptedException, IOException, AWTException {
-        long time = System.currentTimeMillis();
         File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());
         File folder = new File(desktop, "Calculo 2 Riemann - resultados");
         createFolder(folder);
@@ -67,6 +66,8 @@ public class Main {
         double b = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite superior da integral: "));
 
         int n = getInterval();
+
+        long time = System.currentTimeMillis();
 
         if (op >= 1) {
             t1 = new Thread(new Riemann(function, s, a, b, n, 1, subFolder));

@@ -21,13 +21,14 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException, AWTException {
-        long start = System.currentTimeMillis();
         Function<Double, Double> function = Main::function;
         String s = "x^2";
 
         double a = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite inferior da integral: "));
         double b = Double.parseDouble(JOptionPane.showInputDialog("Digite o limite superior da integral: "));
         int n = Integer.parseInt(JOptionPane.showInputDialog("Digite o número de intervalos: "));
+
+        long start = System.currentTimeMillis();
 
         Riemann r = new Riemann();
         r.calculate(function, a, b, n, s, 1);
