@@ -1,6 +1,5 @@
 package NoThread;
 
-import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,10 +7,10 @@ import java.text.DecimalFormat;
 import java.util.function.Function;
 
 public class Riemann {
-    private final GerenciadorDeArquivos gerenciador = new GerenciadorDeArquivos();
     private final BufferedWriter writer;
 
     public Riemann() throws IOException, InterruptedException {
+        GerenciadorDeArquivos gerenciador = new GerenciadorDeArquivos();
         gerenciador.createFolder();
         writer = new BufferedWriter(new FileWriter(gerenciador.getTxt()));
     }
@@ -21,30 +20,37 @@ public class Riemann {
         return " ".repeat(Math.max(0, padding)) + text + " ".repeat(Math.max(0, padding));
     }
 
-    public void calculate(Function<Double, Double> f, double a, double b, int n, String s) throws IOException, InterruptedException, AWTException {
-        writer.write("Soma de Thread.Riemann\nf(x) = " + s + " | a = " + a + " | b = " + b + " | Intervalos = " + n + "\n");
+    public void calculate(Function<Double, Double> f, double a, double b, int n, String s, int op) throws IOException {
+        writer.write("Soma de Riemann\nf(x) = " + s + " | a = " + a + " | b = " + b + " | Intervalos = " + n + "\n");
         DecimalFormat formato = new DecimalFormat("#.################");
 
         double deltaX = (b - a) / n;
         double soma = 0;
 
         for (int i = 0; i < n; i++) {
-            double x1 = a + i * deltaX;
-            double area = f.apply(x1) * deltaX;
+            double x = 0;
+
+            if (op == 1) {
+                x = a + i * deltaX;
+            }
+            if (op == 2) {
+                x = a + (i + 0.5) * deltaX;
+            }
+            if (op == 3) {
+                x = a + (i + 1) * deltaX;
+            }
+
+            double area = f.apply(x) * deltaX;
             soma += area;
 
             if (i % 250 == 0) {
                 writer.flush();
             }
-            System.out.println(i);
 
-            writeText(formato, i, x1, area, soma);
+            writeText(formato, i, x, area, soma);
         }
         writer.flush();
         writer.write("\n\nResultado final: " + soma);
-        writer.close();
-
-        gerenciador.showText();
     }
 
     private void writeText(DecimalFormat format, int i, double x1, double area, double soma) throws IOException {

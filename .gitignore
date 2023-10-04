@@ -1,7 +1,7 @@
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
-src/Testes.java
+src/Tests.java
 !**/src/test/**/out/
 *.txt
 *.pdf

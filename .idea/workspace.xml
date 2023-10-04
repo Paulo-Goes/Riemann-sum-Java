@@ -9,10 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e557ddeb-98ab-494a-bfc6-fb7637c12511" name="Changes" comment="Remove comentário de código&#10;Remove partes desnecessárias">
+    <list default="true" id="e557ddeb-98ab-494a-bfc6-fb7637c12511" name="Changes" comment="Threads para um cálculo não funciona bem, implementar soma de Riemann de todos os lados e ver se usando Threads fica mais rápido">
+      <change afterPath="$PROJECT_DIR$/src/Thread/Escritor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NoThread/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/GerenciadorDeArquivos.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/NoThread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Thread/Dados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Dados.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NoThread/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Riemann.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Thread/GerenciadorDeArquivos.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Thread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Thread/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Riemann.java" afterDir="false" />
     </list>
@@ -93,10 +97,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Tests" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Tests" />
+      <module name="Calculo 2 Riemann" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.NoThread.Main" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Tests" />
         <item itemvalue="Application.Antigo" />
       </list>
     </recent_temporary>
@@ -219,7 +231,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696269034285</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Threads para um cálculo não funciona bem, implementar soma de Riemann de todos os lados e ver se usando Threads fica mais rápido">
+      <option name="closed" value="true" />
+      <created>1696445690860</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1696445690860</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -238,7 +258,15 @@
     <MESSAGE value="Pequeno erro" />
     <MESSAGE value="Melhorias de vida" />
     <MESSAGE value="Threads" />
-    <option name="LAST_COMMIT_MESSAGE" value="Threads" />
+    <MESSAGE value="Threads para um cálculo não funciona bem, implementar soma de Riemann de todos os lados e ver se usando Threads fica mais rápido" />
+    <option name="LAST_COMMIT_MESSAGE" value="Threads para um cálculo não funciona bem, implementar soma de Riemann de todos os lados e ver se usando Threads fica mais rápido" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="writer" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

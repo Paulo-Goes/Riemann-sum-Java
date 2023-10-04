@@ -1,15 +1,17 @@
 package NoThread;
 
 import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
 
 public class GerenciadorDeArquivos {
     private final File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());
     private final File folder = new File(desktop, "Calculo 2 Riemann - resultados");
     private final File txt = getTxtFile();
+
+
+    public File getFolder() {
+        return folder;
+    }
 
     public void createFolder() throws InterruptedException {
         if (!folder.exists()) {
@@ -38,21 +40,6 @@ public class GerenciadorDeArquivos {
             fileNumber++;
         } while (txtFile.exists());
         return txtFile;
-    }
-
-    public void showText() throws IOException, InterruptedException, AWTException {
-        ProcessBuilder pb = new ProcessBuilder("notepad.exe", txt.getAbsolutePath());
-        pb.start();
-
-        Thread.sleep(1000);
-
-        Robot robot = new Robot();
-        robot.keyPress(KeyEvent.VK_WINDOWS);
-        robot.keyPress(KeyEvent.VK_UP);
-        robot.keyRelease(KeyEvent.VK_UP);
-        robot.keyRelease(KeyEvent.VK_WINDOWS);
-
-        System.out.println("Maximizado");
     }
 
     public File getTxt() {
