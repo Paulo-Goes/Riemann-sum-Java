@@ -2,6 +2,7 @@
 out/
 !**/src/main/**/out/
 src/Tests.java
+src/Antigo.java
 !**/src/test/**/out/
 *.txt
 *.pdf

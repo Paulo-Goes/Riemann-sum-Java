@@ -51,8 +51,10 @@ public class Main {
 
         Thread t1 = null, t2 = null, t3 = null;
 
+        //Selecionar por quais lados fazer a soma
         setOp();
 
+        //Nome da pasta
         String nome = "";
 
         if (enable1 && enable2 && enable3) {
@@ -85,6 +87,7 @@ public class Main {
 
         int n = getInterval();
 
+        //Medir tempo de execução
         long time = System.currentTimeMillis();
 
         if (enable1) {
@@ -105,9 +108,11 @@ public class Main {
         if (t1 != null) {
             t1.join();
         }
+
         if (t2 != null) {
             t2.join();
         }
+
         if (t3 != null) {
             t3.join();
         }
@@ -156,9 +161,11 @@ public class Main {
             if (aux == 1) {
                 enable1 = true;
             }
+
             if (aux == 2) {
                 enable2 = true;
             }
+
             if (aux == 3) {
                 enable3 = true;
             }

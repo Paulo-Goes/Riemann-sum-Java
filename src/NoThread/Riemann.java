@@ -9,10 +9,10 @@ import java.util.function.Function;
 public class Riemann {
     private final BufferedWriter writer;
 
-    public Riemann() throws IOException, InterruptedException {
+    public Riemann(int op, String s) throws InterruptedException, IOException {
         GerenciadorDeArquivos gerenciador = new GerenciadorDeArquivos();
         gerenciador.createFolder();
-        writer = new BufferedWriter(new FileWriter(gerenciador.getTxt()));
+        writer = new BufferedWriter(new FileWriter(gerenciador.getTxtFile(op, s)));
     }
 
     private static String centerText(String text, int width) {
@@ -33,9 +33,11 @@ public class Riemann {
             if (op == 1) {
                 x = a + i * deltaX;
             }
+
             if (op == 2) {
                 x = a + (i + 0.5) * deltaX;
             }
+
             if (op == 3) {
                 x = a + (i + 1) * deltaX;
             }
@@ -43,14 +45,12 @@ public class Riemann {
             double area = f.apply(x) * deltaX;
             soma += area;
 
-            if (i % 250 == 0) {
-                writer.flush();
-            }
-
             writeText(formato, i, x, area, soma);
         }
-        writer.flush();
+
         writer.write("\n\nResultado final: " + soma);
+        writer.flush();
+        writer.close();
     }
 
     private void writeText(DecimalFormat format, int i, double x1, double area, double soma) throws IOException {
@@ -95,5 +95,6 @@ public class Riemann {
         }
         writer.write(String.format("|%s|%n", centerText(s + format.format(soma), aux1)));
         writer.write("=================================================\n");
+        writer.flush();
     }
 }

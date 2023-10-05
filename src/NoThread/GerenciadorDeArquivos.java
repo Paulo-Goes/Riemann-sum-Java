@@ -2,11 +2,12 @@ package NoThread;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class GerenciadorDeArquivos {
     private final File desktop = new File(FileSystemView.getFileSystemView().getHomeDirectory().toString());
     private final File folder = new File(desktop, "Calculo 2 Riemann - resultados");
-    private final File txt = getTxtFile();
 
 
     public File getFolder() {
@@ -27,22 +28,20 @@ public class GerenciadorDeArquivos {
         Thread.sleep(1000);
     }
 
-    private File getTxtFile() {
-        String baseFileName = "resultado.txt";
-        int fileNumber = 0;
-        File txtFile;
-        do {
-            String fileName = baseFileName;
-            if (fileNumber > 0) {
-                fileName = baseFileName.replace(".txt", "(" + fileNumber + ").txt");
-            }
-            txtFile = new File(folder, fileName);
-            fileNumber++;
-        } while (txtFile.exists());
-        return txtFile;
-    }
+    public File getTxtFile(int op, String s) {
+        String nome = "";
 
-    public File getTxt() {
-        return txt;
+        if (op == 1) {
+            nome += "Esquerda";
+        }
+        if (op == 2) {
+            nome += "Meio";
+        }
+        if (op == 3) {
+            nome += "Direita";
+        }
+
+        nome += " f(x) = " + s + " " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yy hh-mm-ss")) + ".txt";
+        return new File(folder, nome);
     }
 }

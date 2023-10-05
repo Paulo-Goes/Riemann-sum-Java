@@ -9,12 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e557ddeb-98ab-494a-bfc6-fb7637c12511" name="Changes" comment="e">
+    <list default="true" id="e557ddeb-98ab-494a-bfc6-fb7637c12511" name="Changes" comment="Otimizações na execução:&#10;Remove Dados[] de Riemann.java reduzindo consumo de RAM&#10;Implementa métodos em Main.java para selecionar os lados a serem calculados">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Thread/Dados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Dados.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Thread/Escritor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Escritor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NoThread/Antigo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NoThread/GerenciadorDeArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/GerenciadorDeArquivos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NoThread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/NoThread/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NoThread/Riemann.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Thread/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Thread/Riemann.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Thread/Riemann.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,21 +69,8 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Thread.Main" />
-      <module name="Calculo 2 Riemann" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Thread.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="NoThread.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="NoThread.Main" />
       <module name="Calculo 2 Riemann" />
       <extension name="coverage">
@@ -97,7 +86,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.NoThread.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -243,7 +231,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696461356048</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Otimizações na execução:&#10;Remove Dados[] de Riemann.java reduzindo consumo de RAM&#10;Implementa métodos em Main.java para selecionar os lados a serem calculados">
+      <option name="closed" value="true" />
+      <created>1696531245248</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1696531245248</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -266,7 +262,8 @@
     <MESSAGE value="Threads para um cálculo não funciona bem, implementar soma de Riemann de todos os lados e ver se usando Threads fica mais rápido" />
     <MESSAGE value="Implementa soma pelo meio e pela direita&#10;Implementa Threads de forma mais eficiente" />
     <MESSAGE value="e" />
-    <option name="LAST_COMMIT_MESSAGE" value="e" />
+    <MESSAGE value="Otimizações na execução:&#10;Remove Dados[] de Riemann.java reduzindo consumo de RAM&#10;Implementa métodos em Main.java para selecionar os lados a serem calculados" />
+    <option name="LAST_COMMIT_MESSAGE" value="Otimizações na execução:&#10;Remove Dados[] de Riemann.java reduzindo consumo de RAM&#10;Implementa métodos em Main.java para selecionar os lados a serem calculados" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
