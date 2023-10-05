@@ -10,10 +10,9 @@ public class Riemann implements Runnable {
     private final double a, b;
     private final int op, n;
     private final Escritor g;
-    private final Dados[] dados;
+    private double soma, previous;
 
     public Riemann(Function<Double, Double> function, String functionString, double a, double b, int n, int op, File subFolder) throws IOException {
-        this.dados = new Dados[n];
         this.function = function;
         this.a = a;
         this.b = b;
@@ -34,10 +33,10 @@ public class Riemann implements Runnable {
     }
 
     private Dados calculate(int i) {
-        double soma = 0;
+        soma = 0;
 
         if(i != 0){
-            soma = dados[i - 1].getSoma();
+            soma = previous;
         }
 
         double deltaX = (b - a) / n;
@@ -53,6 +52,7 @@ public class Riemann implements Runnable {
         }
 
         double area = function.apply(x) * deltaX;
+        previous = area;
         soma += area;
 
         return new Dados(x, area, soma);
@@ -61,16 +61,15 @@ public class Riemann implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < n; i++) {
-            dados[i] = calculate(i);
             try {
-                g.writeText(dados[i], n, i);
+                g.writeText(calculate(i), n, i);
             } catch (IOException | InterruptedException | AWTException e) {
                 throw new RuntimeException(e);
             }
         }
 
         try {
-            g.writeResult(dados[n - 1].getSoma());
+            g.writeResult(soma);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

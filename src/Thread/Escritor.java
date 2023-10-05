@@ -45,16 +45,16 @@ public class Escritor {
         writer.write(String.format("|%s|%n", centerText(s + (i + 1), aux1)));
 
 
-        aux = format.format(dados.getX1()).length() - 2;
+        aux = format.format(dados.x1()).length() - 2;
         s = "X1:";
         if (aux % 2 != 0) {
             s += " ";
             aux1--;
         }
-        writer.write(String.format("|%s|%n", centerText(s + format.format(dados.getX1()), aux1)));
+        writer.write(String.format("|%s|%n", centerText(s + format.format(dados.x1()), aux1)));
 
 
-        s = format.format(dados.getArea());
+        s = format.format(dados.area());
         aux = s.length() - 2;
         s = "Área parcial:";
         aux1 = 48;
@@ -62,10 +62,10 @@ public class Escritor {
             aux1--;
             s += " ";
         }
-        writer.write(String.format("|%s|%n", centerText(s + format.format(dados.getArea()), aux1)));
+        writer.write(String.format("|%s|%n", centerText(s + format.format(dados.area()), aux1)));
 
 
-        s = format.format(dados.getSoma());
+        s = format.format(dados.soma());
         aux = s.length() - 2;
         s = "Resultado parcial:";
         aux1 = 48;
@@ -73,7 +73,7 @@ public class Escritor {
             aux1--;
             s += " ";
         }
-        writer.write(String.format("|%s|%n", centerText(s + format.format(dados.getSoma()), aux1)));
+        writer.write(String.format("|%s|%n", centerText(s + format.format(dados.soma()), aux1)));
         writer.write("=================================================\n");
         if (i % 3000 == 0) {
             writer.flush();

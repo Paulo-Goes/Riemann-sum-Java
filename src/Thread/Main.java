@@ -10,8 +10,20 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Function;
 
+import static java.lang.Character.isDigit;
+
 /*
- * Documento de texto so funciona se notepad.exe tiver os seguintes parâmetros:
+ * Recomenda-se usar um editor de texto de terceiros:
+ * Sublime Text
+ * Notepad++
+ * EmEditor
+ * Vim
+ * nano
+ * UltraEdit
+ * Geany
+ * ...
+ *
+ * Documento de texto so funciona se a letra tiver os seguintes parâmetros:
  * Fonte: Consolas
  * Estilo: Regular
  * Tamanho: 11
@@ -19,10 +31,8 @@ import java.util.function.Function;
  */
 
 public class Main {
-    /*
-     * Todo:
-     * Criar uma tela para selecionar quais tipos de soma para fazer
-     */
+    private static boolean enable1, enable2, enable3;
+
     public static double function(double x) {
         return Math.pow(x, 2);//x^2
     }
@@ -41,20 +51,28 @@ public class Main {
 
         Thread t1 = null, t2 = null, t3 = null;
 
-        int op = getOp();
+        setOp();
 
-        String nome = "Esquerda";
+        String nome = "";
 
-        if (op == 2) {
-            nome = "Meio";
-        }
-
-        if (op == 3) {
-            nome = "Direita";
-        }
-
-        if (op == 4) {
+        if (enable1 && enable2 && enable3) {
             nome = "Todos";
+        } else {
+            if (enable1) {
+                nome += "Esquerda";
+            }
+            if (enable2) {
+                if (!nome.isEmpty()) {
+                    nome += ", ";
+                }
+                nome += "Meio";
+            }
+            if (enable3) {
+                if (!nome.isEmpty()) {
+                    nome += ", ";
+                }
+                nome += "Direita";
+            }
         }
 
         nome += " f(x) = " + s + " " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yy hh-mm-ss"));
@@ -69,17 +87,17 @@ public class Main {
 
         long time = System.currentTimeMillis();
 
-        if (op >= 1) {
+        if (enable1) {
             t1 = new Thread(new Riemann(function, s, a, b, n, 1, subFolder));
             t1.start();
         }
 
-        if (op >= 2) {
+        if (enable2) {
             t2 = new Thread(new Riemann(function, s, a, b, n, 2, subFolder));
             t2.start();
         }
 
-        if (op >= 3) {
+        if (enable3) {
             t3 = new Thread(new Riemann(function, s, a, b, n, 3, subFolder));
             t3.start();
         }
@@ -95,7 +113,7 @@ public class Main {
         }
         showFolder(subFolder);
 
-        System.out.println((System.currentTimeMillis() - time)/1000);
+        System.out.println((System.currentTimeMillis() - time) / 1000);
     }
 
     private static int getInterval() {
@@ -106,13 +124,45 @@ public class Main {
         return n;
     }
 
-    private static int getOp() {
-        int op = Integer.parseInt(JOptionPane.showInputDialog("1 - Esquerda / 2 - Meio / 3 - Direita / 4 - Todos"));
-
-        while (op > 4 || op < 1) {
-            op = Integer.parseInt(JOptionPane.showInputDialog("1 - Esquerda / 2 - Meio / 3 - Direita / 4 - Todos"));
+    private static boolean isFormatted(String input) {
+        if (input.isEmpty()) return false;
+        for (int i = 0; i < input.length(); i++) {
+            if (!isDigit(input.charAt(i))) {
+                return false;
+            } else {
+                int aux = Integer.parseInt(String.valueOf(input.charAt(i)));
+                if (aux >= 4 || aux == 0) {
+                    return false;
+                }
+            }
         }
-        return op;
+        return true;
+    }
+
+    private static void setOp() {
+        String op = JOptionPane.showInputDialog("1 - Esquerda / 2 - Meio / 3 - Direita (1,2,3)(1,3)").replace(" ", "");
+
+        op = op.replace(" ", "");
+        op = op.replace(",", "");
+
+        while (!isFormatted(op)) {
+            op = JOptionPane.showInputDialog("1 - Esquerda / 2 - Meio / 3 - Direita (1,2,3)(1,3)");
+            op = op.replace(" ", "");
+            op = op.replace(",", "");
+        }
+
+        for (int i = 0; i < op.length(); i++) {
+            int aux = Integer.parseInt(String.valueOf(op.charAt(i)));
+            if (aux == 1) {
+                enable1 = true;
+            }
+            if (aux == 2) {
+                enable2 = true;
+            }
+            if (aux == 3) {
+                enable3 = true;
+            }
+        }
     }
 
     private static void createFolder(File folder) {
